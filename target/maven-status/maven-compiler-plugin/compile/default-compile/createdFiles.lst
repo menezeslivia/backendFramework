@@ -1,0 +1,5 @@
+com\example\universidade\domain\DTO\PessoaDTO.class
+com\example\universidade\domain\model\Pessoa.class
+com\example\universidade\repository\PessoaRepository.class
+com\example\universidade\controllers\PessoaController.class
+com\example\universidade\UniversidadeApplication.class
