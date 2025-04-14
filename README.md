@@ -27,4 +27,4 @@ spring.jpa.hibernate.ddl-auto=update
 ## Dupla:
 
 - Lívia Janine Menezes Cabral da Silva
-- Ystefane
+- Ystefani Mariana Gomes
