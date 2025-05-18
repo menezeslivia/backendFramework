@@ -1,4 +1,4 @@
-package com.example.universidade.domain.DTO;
+package com.example.universidade.domain.dto;
 
 
 import lombok.Getter;

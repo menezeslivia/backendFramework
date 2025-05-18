@@ -1,34 +1,45 @@
 package com.example.universidade.controllers;
 
+import com.example.universidade.domain.dto.PessoaRequestDTO;
+import com.example.universidade.domain.dto.PessoaResponseDTO;
+import com.example.universidade.service.PessoaService;
 
-import com.example.universidade.domain.DTO.PessoaDTO;
-import com.example.universidade.domain.model.Pessoa;
-import com.example.universidade.repository.PessoaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/pessoas")
+@RequiredArgsConstructor
 public class PessoaController {
 
-    @Autowired
-    private PessoaRepository pessoaRepository;
+    private final PessoaService pessoaService;
 
     @PostMapping
-    public ResponseEntity<Pessoa> criarPessoa(@RequestBody PessoaDTO dto) {
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNome(dto.getNome());
-        pessoa.setCpf(dto.getCpf());
-        pessoa.setIdade(dto.getIdade());
-        Pessoa salva = pessoaRepository.save(pessoa);
-        return ResponseEntity.ok(salva);
+    public ResponseEntity<PessoaResponseDTO> criarPessoa(@RequestBody PessoaRequestDTO dto) {
+        return ResponseEntity.ok(pessoaService.criarPessoa(dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pessoa> buscarPorId(@PathVariable Long id) {
-        return pessoaRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<PessoaResponseDTO> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(pessoaService.buscarPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PessoaResponseDTO> atualizarPessoa(@PathVariable Long id, @RequestBody PessoaRequestDTO dto) {
+        return ResponseEntity.ok(pessoaService.atualizarPessoa(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPessoa(@PathVariable Long id) {
+        pessoaService.deletarPessoa(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<List<PessoaResponseDTO>> buscarPorNomeEIdade(@RequestParam String nome, @RequestParam int idade) {
+        return ResponseEntity.ok(pessoaService.buscarPorNomeEIdade(nome, idade));
     }
 }
